@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CryptoBook - Информационный сервис о криптовалютах</title>
+        <link rel="shortcut icon" href="assets/img/favicon.png">
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo:400,700,800" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> 
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/bootsnav.min.css" rel="stylesheet">
+        <link href="assets/css/owl.carousel.min.css" rel="stylesheet">
+        <link href="assets/css/owl.theme.default.min.css" rel="stylesheet">
+        <link href="assets/css/bootstrap-select.min.css" rel="stylesheet">
+        <link href="assets/flag-icons/css/flag-icon.min.css" rel="stylesheet">
+        <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="assets/css/linearicons.min.css" rel="stylesheet">
+        <link href="assets/css/animate.min.css" rel="stylesheet">
+        <link href="assets/css/magnific-popup.css" rel="stylesheet">
+        <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/responsive.bootstrap.min.css" rel="stylesheet">
+        <link href="assets/amcharts/export.css" rel="stylesheet">
+        <link href="assets/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="loader-wrapper">
+            <div id="loader"></div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+        
+        <div class="reg-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-7 col-md-6">
+                        <div class="">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab1" data-toggle="tab">Регистрация</a></li>
+                                <li><a href="#tab2" data-toggle="tab">Войти в систему</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="tab1">
+                                    <form id="register-form">
+                                        <script>
+                                            document.getElementById('register-form').onsubmit = (event) => {
+                                                event.preventDefault();
+                                                let base_link_to_register = 'https://localhost:7278/api/Accounts/register';
+                                                fetch(base_link_to_register, {
+                                                    method: 'POST', 
+                                                    headers: {
+                                                        "Content-Type": "application/json-patch+json",
+                                                        "accept": "text/plain"
+                                                    },
+                                                    body: JSON.stringify({
+                                                        username: document.getElementById('username').value,
+                                                        email: document.getElementById('email').value,
+                                                        password: document.getElementById('password').value,
+                                                        passwordConfirm: document.getElementById('passwordConfirm').value,
+                                                        firstName: document.getElementById('firstName').value,
+                                                        secondName: document.getElementById('secondName').value
+                                                    })
+                                                }).then((response) => {return response.json()})
+                                                .then((json) => {
+                                                    console.log(json);
+                                                    if (json.Token) {
+                                                        alert(json.Username +', Вы успешно зарегистрировались!');
+                                                        window.location = 'index.html?logined=true';
+                                                    } else {
+                                                        alert(json[0]);
+                                                    }
+                                                });
+                                            };
+                                        </script>
+                                        <span class="input">
+                                            <input class="input__field register" type="text" id="username" requered>
+                                            <label class="input__label" for="input-Username">
+                                                <span class="input__label-content" data-content="Никнейм">Никнейм</span>
+                                            </label>
+                                        </span>
+
+                                        <span class="input">
+                                            <input class="input__field register" type="text" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" requered>
+                                            <label class="input__label" for="input-Email">
+                                                <span class="input__label-content" data-content="E-mail">E-mail</span>
+                                            </label>
+                                        </span>
+
+                                        <span class="input">
+                                            <input class="input__field register" type="password" id="password" requered>
+                                            <label class="input__label" for="input-Password">
+                                                <span class="input__label-content" data-content="Пароль">Пароль</span>
+                                            </label>
+                                        </span>
+
+                                        <span class="input">
+                                            <input class="input__field register" type="password" id="passwordConfirm" requered>
+                                            <label class="input__label" for="input-PasswordConfirm">
+                                                <span class="input__label-content" data-content="Подтверждение пароля">Подтверждение пароля</span>
+                                            </label>
+                                        </span>
+
+                                        <span class="input">
+                                            <input class="input__field register" type="text" id="firstName" requered>
+                                            <label class="input__label" for="input-FirstName">
+                                                <span class="input__label-content" data-content="Ваше имя">Ваше имя</span>
+                                            </label>
+                                        </span>
+
+                                        <span class="input">
+                                            <input class="input__field register" type="text" id="secondName" requered>
+                                            <label class="input__label" for="input-SecondName">
+                                                <span class="input__label-content" data-content="Ваша фамилия">Ваша фамилия</span>
+                                            </label>
+                                        </span>
+
+                                        <button type="submit" class="btn btn-reg" id="reg">Зарегистрироваться</button>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="tab2">
+                                    <form>
+                                        <span class="input">
+                                            <input class="input__field login" type="text" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" requered>
+                                            <label class="input__label" for="input-2">
+                                                <span class="input__label-content" data-content="E-MAIL">E-mail</span>
+                                            </label>
+                                        </span>
+                                        <span class="input">
+                                            <input class="input__field login" type="password" id="password" requered>
+                                            <label class="input__label" for="input-3">
+                                                <span class="input__label-content" data-content="Пароль">Пароль</span>
+                                            </label>
+                                        </span>
+                                        <button type="submit" class="btn btn-reg" id="login">Войти в систему</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootsnav.min.js"></script>
+        <script src="assets/js/owl.carousel.min.js"></script>
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/parallax-background.min.js"></script>
+        <script src="assets/js/jquery.dataTables.min.js"></script>
+        <script src="assets/js/dataTables.bootstrap.min.js"></script>
+        <script src="assets/js/dataTables.responsive.min.js"></script>
+        <script src="assets/js/responsive.bootstrap.min.js"></script>
+        <script src="assets/js/jquery.marquee.min.js"></script>
+        <script src="assets/js/particles.min.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/js/bootstrap-select.min.js"></script>
+        <script src="assets/js/classie.min.js"></script>
+        <script src="assets/js/custom.js"></script>
+        <script>
+            (function () {
+                if (!String.prototype.trim) {
+                    (function () {
+                        var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                        String.prototype.trim = function () {
+                            return this.replace(rtrim, '');
+                        };
+                    })();
+                }
+
+                [].slice.call(document.querySelectorAll('input.input__field')).forEach(function (inputEl) {
+                    if (inputEl.value.trim() !== '') {
+                        classie.add(inputEl.parentNode, 'input--filled');
+                    }
+                    inputEl.addEventListener('focus', onInputFocus);
+                    inputEl.addEventListener('blur', onInputBlur);
+                });
+
+                function onInputFocus(ev) {
+                    classie.add(ev.target.parentNode, 'input--filled');
+                }
+
+                function onInputBlur(ev) {
+                    if (ev.target.value.trim() === '') {
+                        classie.remove(ev.target.parentNode, 'input--filled');
+                    }
+                }
+            })();
+        </script>
+        <script>
+            $(function () {
+                $('.reg-wrapper').css({'height': ($(document).height()) + 'px'});
+                $(window).resize(function () {
+                    $('.reg-wrapper').css({'height': ($(document).height()) + 'px'});
+                });
+            });
+        </script>
+
+        <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                const button = document.querySelector('#reg');
+                button.addEventListener('click', sendDataRegister);
+
+                function sendDataRegister() {
+                    const inputElements = document.querySelectorAll('.register');
+
+                    const data = {};
+                    inputElements.forEach((inputElement) => {
+                        const inputId = inputElement.id;
+                        const inputValue = inputElement.value;
+                        data[inputId] = inputValue;
+                        if (inputValue !== '' || inputValue === 'secondName'){
+                            data[inputId] = inputValue;
+                        } else {
+                            data[inputId] = '';
+                        }
+                        console.log(inputId + ': ' + inputValue);
+                    });
+
+                    const url = 'https://localhost:7278/Accounts/register';
+                    const jsonData = JSON.stringify(data);
+                    
+                    fetch(url, {
+                    method: 'POST',
+                    body: jsonData,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                    })
+                    .then((response) => {
+                        if (response.ok) {
+                        console.log('Success of register');
+                        return response.json();
+                        } else {
+                        console.log('Error of register: ' + response.status + ' ' + response.statusText);
+                        throw new Error('Registration error');
+                        }
+                    })
+                    .then((data) => {
+                        console.log('Received data:', data);
+                    })
+                    .catch((error) => {
+                        console.log('Some error occurred:', error.message);
+                    });
+                }
+                });
+
+            </script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                const button = document.querySelector('№login');
+                button.addEventListener('click', sendDataLogin);
+
+                function sendDataLogin() {
+                    const inputElements = document.querySelectorAll('.login');
+
+                    const data = {};
+                    inputElements.forEach((inputElement) => {
+                        const inputId = inputElement.id;
+                        const inputValue = inputElement.value;
+                        data[inputId] = inputValue;
+                        console.log(inputId + ': ' + inputValue);
+                    });
+
+                    const url = 'https://localhost:7278/Accounts/login';
+                    const jsonData = JSON.stringify(data);
+                    
+                    fetch(url, {
+                        method: 'POST',
+                        body: jsonData,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then((response) => {
+                        if (response.ok) {
+                        console.log('Success of login');
+                        return response.json();
+                        } else {
+                        console.log('Error of login: ' + response.status + ' ' + response.statusText);
+                        throw new Error('Login error');
+                        }
+                    })
+                    .then((data) => {
+                        console.log('Received data:', data);
+                    })
+                    .catch((error) => {
+                        console.log('Some error occurred:', error.message);
+                    });
+                }
+            });
+            </script>
+    </body>
+</html>
